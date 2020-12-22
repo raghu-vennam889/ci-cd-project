@@ -13,6 +13,4 @@ To learn more about Kubernetes and other related topics check the following exam
 More lines of code 
 
 
-this edit is done by rr
-last commit by rr
-and last test for this  build
+this is raghuram reddy who made commits to this build
