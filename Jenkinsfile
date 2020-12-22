@@ -40,7 +40,7 @@ agent any
 	}
 	stage('deploy to kubernetes') {  
 		steps {
-			sh 'cd ${workspace}/resource-manifests && kubectl apply -f .'
+			sh 'cd ${WORKSPACE}/resource-manifests && kubectl apply -f .'
 		}
 	}
 	
