@@ -43,6 +43,15 @@ agent any
 			sh 'cd ${WORKSPACE}/resource-manifests && kubectl apply -f .'
 		}
 	}
-	
+	stage('Archive Artifacts') {
+		steps {
+			archiveArtifacts '**/*.jar'
+		}
+	}
+	stage('Email Notification') {
+		steps {
+			emailtext body: 'please check', subject: 'Build failed', to: 'raghu.vennam889@gmail.com'
+		}
+	}
    }
 }
