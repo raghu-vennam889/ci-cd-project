@@ -27,7 +27,7 @@ agent any
 			sh 'cd ${WORKSPACE}/sa-logic && docker build -t sa-logic .'
 		}
 	}	
-
+	withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'R123456789', usernameVariable: 'jenkins')]) 
 	stage('push to registry') {
 		steps {
 			sh 'docker tag sa-frontend raghuram889/sa-frontend'
