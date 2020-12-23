@@ -27,12 +27,7 @@ agent any
 			sh 'cd ${WORKSPACE}/sa-logic && docker build -t sa-logic .'
 		}
 	}	
-		stage ('pass credentials') {
-			steps {
-				
-		sh 'withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'R123456789', usernameVariable: 'jenkins')]) '
-			}
-		}
+		
 	stage('push to registry') {
 		steps {
 			sh 'docker tag sa-frontend 54.205.127.4/cicd-prod/sa-frontend'
