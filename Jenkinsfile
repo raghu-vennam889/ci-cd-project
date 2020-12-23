@@ -31,12 +31,12 @@ agent any
 	stage('push to registry') {
 		steps {
 			withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]) {
-			sh 'docker tag sa-frontend "https://harbor.devopsdoor.com"/cicd_dev/sa-frontend:1.0.0'
-			sh 'docker tag sa-webapp "https://harbor.devopsdoor.com"/cicd_dev/sa-webapp:1.0.0'
-			sh 'docker tag sa-logic "https://harbor.devopsdoor.com"/cicd_dev/sa-logic:1.0.0'
-			sh 'docker push "https://harbor.devopsdoor.com"/cicd_dev/sa-frontend:1.0.0'
-			sh 'docker push "https://harbor.devopsdoor.com"/cicd_dev/sa-webapp:1.0.0'
-			sh 'docker push "https://harbor.devopsdoor.com"/cicd_dev/sa-logic:1.0.0'
+			sh 'docker tag sa-frontend harbor.devopsdoor.com/cicd_dev/sa-frontend:1.0.0'
+			sh 'docker tag sa-webapp harbor.devopsdoor.com/cicd_dev/sa-webapp:1.0.0'
+			sh 'docker tag sa-logic harbor.devopsdoor.com/cicd_dev/sa-logic:1.0.0'
+			sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-frontend:1.0.0'
+			sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-webapp:1.0.0'
+			sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-logic:1.0.0'
 			}	
 		}
 	}
