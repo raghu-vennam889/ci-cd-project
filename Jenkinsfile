@@ -35,12 +35,12 @@ agent any
 		}
 	stage('push to registry') {
 		steps {
-			sh 'docker tag sa-frontend raghuram889/sa-frontend'
-			sh 'docker tag sa-webapp raghuram889/sa-webapp'
-			sh 'docker tag sa-logic raghuram889/sa-logic'
-			sh 'docker push raghuram889/sa-frontend'
-			sh 'docker push raghuram889/sa-webapp'
-			sh 'docker push raghuram889/sa-logic'
+			sh 'docker tag sa-frontend 54.205.127.4/cicd-prod/sa-frontend'
+			sh 'docker tag sa-webapp 54.205.127.4/cicd-prod/sa-webapp'
+			sh 'docker tag sa-logic 54.205.127.4/cicd-prod/sa-logic'
+			sh 'docker push 54.205.127.4/cicd-prod/sa-frontend'
+			sh 'docker push 54.205.127.4/cicd-prod/sa-webapp'
+			sh 'docker push 54.205.127.4/cicd-prod/sa-logic'
 		}
 	}
 	stage('deploy to kubernetes') {  
