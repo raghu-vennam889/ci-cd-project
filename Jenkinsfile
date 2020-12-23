@@ -44,10 +44,6 @@ agent any
 		}
 	}
 	
-	stage('Email Notification') {
-		steps {
-			emailtext body: 'please check', subject: 'Build failed', to: 'raghu.vennam889@gmail.com'
-		}
-	}
+	
    }
 }
