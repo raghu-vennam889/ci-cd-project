@@ -31,12 +31,12 @@ agent any
 	stage('push to registry') {
 		steps {
 			withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]) {
-			sh 'docker tag sa-frontend:1.0.0 54.205.127.4/cicd_dev/sa-frontend:1.0.0'
-			sh 'docker tag sa-webapp:1.0.0 54.205.127.4/cicd_dev/sa-webapp:1.0.0'
-			sh 'docker tag sa-logic:1.0.0 54.205.127.4/cicd_dev/sa-logic:1.0.0'
-			sh 'docker push:1.0.0 54.205.127.4/cicd_dev/sa-frontend:1.0.0'
-			sh 'docker push:1.0.0 54.205.127.4/cicd_dev/sa-webapp:1.0.0'
-			sh 'docker push:1.0.0 54.205.127.4/cicd_dev/sa-logic:1.0.0'
+			sh 'docker tag sa-frontend 54.205.127.4/cicd_dev/sa-frontend:1.0.0'
+			sh 'docker tag sa-webapp 54.205.127.4/cicd_dev/sa-webapp:1.0.0'
+			sh 'docker tag sa-logic 54.205.127.4/cicd_dev/sa-logic:1.0.0'
+			sh 'docker push 54.205.127.4/cicd_dev/sa-frontend:1.0.0'
+			sh 'docker push 54.205.127.4/cicd_dev/sa-webapp:1.0.0'
+			sh 'docker push 54.205.127.4/cicd_dev/sa-logic:1.0.0'
 			}	
 		}
 	}
