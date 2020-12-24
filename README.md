@@ -13,6 +13,13 @@ To learn more about Kubernetes and other related topics check the following exam
 More lines of code 
 
 
-commit done in Jenkins file
+new commit
 
+
+sadfdsgdhgjhjk
+
+
+<<<<<<< HEAD
 rdtgfyhgj
+=======
+>>>>>>> 64fe33864ba1b767c061ea79d1c0c4bfc56d7961
