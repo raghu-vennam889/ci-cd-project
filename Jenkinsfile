@@ -30,7 +30,6 @@ agent any
 		
 	stage('push to registry') {
 		steps {
-			docker login harbor.devopsdoor.com
 			withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]) {
 			sh 'docker tag sa-frontend harbor.devopsdoor.com/cicd_dev/sa-frontend:1.0.0'
 			sh 'docker tag sa-webapp harbor.devopsdoor.com/cicd_dev/sa-webapp:1.0.0'
