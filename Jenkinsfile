@@ -1,55 +1,58 @@
 pipeline {
-agent any
+    agent any
+    stages {
+        stage('Build App') {
+            steps {
+                sh 'echo "Building Sa-Frontend"'
+                sh 'cd ${WORKSPACE}/sa-frontend && npm install && npm run build'
+                sh 'echo "Building Sa-webapp"'
+                sh 'cd ${WORKSPACE}/sa-webapp && mvn install'
+            }
+        }
+        stage('Build Images') {
+            steps {
+                sh 'echo "Creating fronted Image"'
+                sh 'cd ${WORKSPACE}/sa-frontend && docker build -t sa-frontend:"$BUILD_NUMBER" .'
+                sh 'echo "Frontend Image created"'
+                sh 'echo "Creating webapp Image"'
+                sh 'cd ${WORKSPACE}/sa-webapp && docker build -t sa-webapp:"$BUILD_NUMBER" .'
+                sh 'echo "Webapp Image Created"'
+                sh 'echo "Creating sa-logic image"'
+                sh 'cd ${WORKSPACE}/sa-logic && docker build -t sa-logic:"$BUILD_NUMBER" .'
+                sh 'echo "sa-logic image created"'
 
-	stages {
-		stage('build sa-frontend') {
-		steps {
-			sh 'cd ${WORKSPACE}/sa-frontend && npm install && npm run build'
-		}
-	}
-	stage('Build sa-webapp') {
-		steps {
-			sh 'cd ${WORKSPACE}/sa-webapp && mvn install'
-		}
-	}
-	stage ('build docker sa-frontend') {
-		steps {
-			sh 'cd ${WORKSPACE}/sa-frontend && docker build -t sa-frontend .'
-		}
-	}
-	stage ('build docker sa-webapp') {
-		steps {
-			sh 'cd ${WORKSPACE}/sa-webapp && docker build -t sa-webapp .'
-		}
-	}
-	stage ('buold docker sa-logic') {
-		steps {
-			sh 'cd ${WORKSPACE}/sa-logic && docker build -t sa-logic .'
-		}
-	}	
-		
-	stage('push to registry') {
-		steps {
-			withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]) {
-			sh 'docker tag sa-frontend harbor.devopsdoor.com/cicd_dev/sa-frontend:1.0.0'
-			sh 'docker tag sa-webapp harbor.devopsdoor.com/cicd_dev/sa-webapp:1.0.0'
-			sh 'docker tag sa-logic harbor.devopsdoor.com/cicd_dev/sa-logic:1.0.0'
-			sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-frontend:1.0.0'
-			sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-webapp:1.0.0'
-			sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-logic:1.0.0'
-			}	
-		}
-	}
-	stage('deploy to kubernetes') {  
-		steps {
-			sh 'cd ${WORKSPACE}/resource-manifests && kubectl apply -f .'
-		}
-	}
-	stage('Email Notification') {
-		steps {
-			emailtext body: 'please check', subject: 'Build failed', to: 'raghu.vennam889@gmail.com'
-		}
-	}
-	
-   }
+            }
+        }
+        stage('push to harbor-dev'){
+            when {
+                branch 'development'
+                }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pw', usernameVariable: 'user')]){
+                sh 'docker tag sa-frontend:"$BUILD_NUMBER" raghudevpro/sa-frontend:"$BUILD_NUMBER"'
+                sh 'docker tag sa-webapp:"$BUILD_NUMBER" raghudevpro/sa-webapp:"$BUILD_NUMBER"'
+                sh 'docker tag sa-frontend:"$BUILD_NUMBER" raghudevpro/sa-logic:"$BUILD_NUMBER"'
+                sh 'docker push raghudevpro/sa-frontend:"$BUILD_NUMBER"'
+                sh 'docker push raghudevpro/sa-webapp:"$BUILD_NUMBER"'
+                sh 'docker push raghudevpro/sa-logic:"$BUILD_NUMBER"'
+                }
+            }
+        }
+        stage('push to harbor-prod'){
+            when {
+                branch 'master'
+                }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pw', usernameVariable: 'user')]){
+                sh 'docker tag sa-frontend:"$BUILD_NUMBER" raghudevpro/sa-frontend:"$BUILD_NUMBER"'
+                sh 'docker tag sa-webapp:"$BUILD_NUMBER" raghudevpro/sa-webapp:"$BUILD_NUMBER"'
+                sh 'docker tag sa-frontend:"$BUILD_NUMBER" raghudevpro/sa-logic:"$BUILD_NUMBER"'
+                sh 'docker push raghudevpro/sa-frontend:"$BUILD_NUMBER"'
+                sh 'docker push raghudevpro/sa-webapp:"$BUILD_NUMBER"'
+                sh 'docker push raghudevpro/cicd-prod/sa-logic:"$BUILD_NUMBER"'
+                }
+            }
+        }
+
+    }
 }
