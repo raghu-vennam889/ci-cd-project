@@ -13,6 +13,4 @@ To learn more about Kubernetes and other related topics check the following exam
 More lines of code 
 
 
-commit done in Jenkins file
-
-email notification is getting error remover email notification for now
+changed readme.md file
